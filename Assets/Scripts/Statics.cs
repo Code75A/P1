@@ -6,6 +6,7 @@ public class Statics : MonoBehaviour
 {
     public int LEVEL;
     public float HP = 100f;
+    public float CurrentHP;
     public float MP = 25f;
     public float TP = 50f;
     public float DEFENSE;
@@ -13,12 +14,21 @@ public class Statics : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HP = 1;
+        CurrentHP = 100f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        HP = 1;
+        if (Input.GetKey(KeyCode.O))//DEBUG O ¿ÛÑª
+            if(CurrentHP>0)
+            {
+                CurrentHP -= 0.1f;
+            }
+        if (Input.GetKey(KeyCode.P))//DEBUG P ¼ÓÑª
+            if (CurrentHP < HP )
+            {
+                CurrentHP += 0.1f;
+            }
     }
 }
