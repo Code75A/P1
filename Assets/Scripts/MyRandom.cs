@@ -1,22 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class MyRandom
+using System;
+public static class MyRandom
 {
-    private long seed = 0;
-    public void SetSeed(long n)
+    private static Random _random = new Random();
+
+    public static int random()
     {
-        seed = n;
-    }
-    public long GetSeed()
-    {
-        return seed;
+        return _random.Next();
     }
 
-    public long Random(long left,long right)
+    public static int random(int maxValue)
     {
-        seed = (seed * 9301 + 49297) % 114514233280;
-        return seed % (right - left + 1) + left;
+        return _random.Next(maxValue);
+    }
+
+    public static int random(int minValue, int maxValue)
+    {
+        return _random.Next(minValue, maxValue);
+    }
+
+    public static void seed(int seed)
+    {
+        _random = new Random(seed);
     }
 }

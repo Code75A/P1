@@ -11,7 +11,9 @@ public class MapGenerator : AbstractMapGenerator
     [SerializeField]
     private int walkLength = 10;
     [SerializeField]
-    private bool startRandomlyEachIteration = true;
+    private int seed = 114514;
+    [SerializeField]
+    private bool changePositionBeforeIteration = true;
 
 
     protected override void RunGeneration()
@@ -24,15 +26,17 @@ public class MapGenerator : AbstractMapGenerator
 
     private HashSet<Vector2Int> RandomWalk()
     {
+        MapAlgorithms mapAlgorithms = new MapAlgorithms();
+        mapAlgorithms.setSeed(seed);
         Vector2Int currentPosition = startPosition;
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         for(int i=0; i < iterations; i++)
         {
-            HashSet<Vector2Int> path = MapAlgorithms.SimpleRandomWalk(currentPosition, walkLength);
+            HashSet<Vector2Int> path = mapAlgorithms.SimpleRandomWalk(currentPosition, walkLength);
             floorPositions.UnionWith(path);
-            if (startRandomlyEachIteration)
+            if (changePositionBeforeIteration)
             {
-                currentPosition = path.ElementAt(UnityEngine.Random.Range(0, path.Count));
+                currentPosition = floorPositions.ElementAt(MyRandom.random(0, floorPositions.Count));
             }
         }
         return floorPositions;
