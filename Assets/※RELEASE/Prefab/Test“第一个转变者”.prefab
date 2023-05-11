@@ -2506,7 +2506,7 @@ GameObject:
   - component: {fileID: 858114566593573136}
   - component: {fileID: 858114566593573137}
   m_Layer: 11
-  m_Name: "\u201C\u7B2C\u4E00\u4E2A\u8F6C\u53D8\u8005\u201D"
+  m_Name: "Test\u201C\u7B2C\u4E00\u4E2A\u8F6C\u53D8\u8005\u201D"
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
