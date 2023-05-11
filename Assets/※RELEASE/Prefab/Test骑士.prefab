@@ -3371,6 +3371,7 @@ GameObject:
   - component: {fileID: 815995742592218465}
   - component: {fileID: 815995742592218471}
   - component: {fileID: 815995742592218468}
+  - component: {fileID: 2359989517623702675}
   m_Layer: 0
   m_Name: "Test\u9A91\u58EB"
   m_TagString: Untagged
@@ -3554,6 +3555,26 @@ MonoBehaviour:
     showGizmo: 1
   - color: {r: 0, g: 1, b: 0, a: 1}
     showGizmo: 1
+--- !u!95 &2359989517623702675
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815995742592218467}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 66e0b89cc68c91b4eb82fad90197c0ba, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &815995742603765960
 GameObject:
   m_ObjectHideFlags: 0
