@@ -13,34 +13,22 @@ public class PlayerController : MonoBehaviour
     }
     private float timer = 0;
     private State CurrentState;
-
-    float lightAttackWindUpTime = 0.5f;
-    float lightAttackActiveTime = 0.5f;
-    float lightAttackRecoveryTime = 0.25f;
-
-    float heavyAttackWindUpTime = 0.5f;
-    float heavyAttackActiveTime = 1f;
-    float heavyAttackRecoveryTime = 1f;
-
-    float reflectWindUpTime = 0.5f;
-    float reflectActiveTime = 0.5f;
-    float reflectRecoveryTime = 0.25f;
-
-    public GameObject lightAttackArea;
-    public GameObject heavyAttackArea;
-    public GameObject reflectArea;
-    private PlayerMovement playerMovement;
+    private WeaponController weaponCtrl;
+    private AbstractWeapon weapon;
+    private GameObject weaponArea;
 
     // Start is called before the first frame update
     void Start()
     {
-        lightAttackArea.SetActive(false);
-        heavyAttackArea.SetActive(false);
-        reflectArea.SetActive(false);
+        weaponCtrl = GetComponent<WeaponController>();
+        weapon = weaponCtrl.GetWeapon();
+        weaponArea = null;
         CurrentState = State.Idling;
-        playerMovement = GetComponent<PlayerMovement>();//获取玩家身上的playerMovement
     }
+    public void setStatics()
+    {
 
+    }
     // Update is called once per frame
     void Update()
     {
@@ -85,6 +73,20 @@ public class PlayerController : MonoBehaviour
             CurrentState = State.Reflect;
             EnterReflectState();
         }
+        else if(Input.GetKeyDown(KeyCode.Z))
+        {
+            weaponCtrl.NextWeapon();
+            weapon = weaponCtrl.GetWeapon();
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            weaponCtrl.LastWeapon();
+            weapon = weaponCtrl.GetWeapon();
+        }
+        else if(Input.GetKeyDown(KeyCode.V))
+        {
+            weaponCtrl.AddNewWeapon(2);
+        }
     }
     void ExitIdlingState()
     {
@@ -95,19 +97,26 @@ public class PlayerController : MonoBehaviour
 
     void EnterLightAttackState()
     {
-        timer = lightAttackWindUpTime + lightAttackActiveTime + lightAttackRecoveryTime;
+        timer = weapon.lightAttackWindUpTime + weapon.lightAttackActiveTime + weapon.lightAttackRecoveryTime;
     }
     void UpdateLightAttackState()
     {
-        if (timer <= lightAttackRecoveryTime + lightAttackActiveTime)
+        if (timer <= weapon.lightAttackRecoveryTime + weapon.lightAttackActiveTime)
         {
-            if (timer >= lightAttackRecoveryTime)//攻击中
+            if (timer >= weapon.lightAttackRecoveryTime)//攻击中
             {
-                lightAttackArea.SetActive (true);
+                if (weaponArea == null)
+                {
+                    // 实例化攻击范围
+                    weaponArea = Instantiate((GameObject)Resources.Load(weapon.lightAttackAreaName));
+                    weaponArea.transform.SetParent(transform);
+                    weaponArea.transform.localPosition = new Vector3(0, 0, 0);
+                }
             }
             else //后摇
             {
-                lightAttackArea.SetActive (false);
+                if(weaponArea != null)
+                Destroy(weaponArea);
             }
         }
         else //前摇
@@ -123,25 +132,33 @@ public class PlayerController : MonoBehaviour
     }
     void ExitLightAttackState()
     {
-        //lightAttackArea.SetActive (false); 看实际是否需要
+        if (weaponArea != null)
+            Destroy(weaponArea);
     }
 
     // HeavyAttack
     void EnterHeavyAttackState()
     {
-        timer = heavyAttackWindUpTime + heavyAttackActiveTime + heavyAttackRecoveryTime;
+        timer = weapon.heavyAttackWindUpTime + weapon.heavyAttackActiveTime + weapon.heavyAttackRecoveryTime;
     }
     void UpdateHeavyAttackState()
     {
-        if(timer <= heavyAttackRecoveryTime + heavyAttackActiveTime)
+        if(timer <= weapon.heavyAttackRecoveryTime + weapon.heavyAttackActiveTime)
         {
-            if(timer >= heavyAttackRecoveryTime)//攻击中
+            if(timer >= weapon.heavyAttackRecoveryTime)//攻击中
             {
-                heavyAttackArea.SetActive(true);
+                if(weaponArea == null)
+                {
+                    // 实例化攻击范围
+                    weaponArea = Instantiate((GameObject)Resources.Load(weapon.heavyAttackAreaName));
+                    weaponArea.transform.SetParent(transform);
+                    weaponArea.transform.localPosition = new Vector3(0, 0, 0);
+                }
             }
             else //后摇
             {
-                heavyAttackArea.SetActive(false);
+                if (weaponArea != null)
+                    Destroy(weaponArea);
             }
         }
         else //前摇
@@ -157,25 +174,33 @@ public class PlayerController : MonoBehaviour
     }
     void ExitHeavyAttackState()
     {
-        // heavyAttackArea.SetActive(false); 看实际是否需要
+        if (weaponArea != null)
+            Destroy(weaponArea);
     }
 
     // Reflect
     void EnterReflectState()
     {
-        timer = reflectWindUpTime + reflectActiveTime + reflectRecoveryTime;
+        timer = weapon.reflectWindUpTime + weapon.reflectActiveTime + weapon.reflectRecoveryTime;
     }
     void UpdateReflectState()
     {
-        if(timer <= reflectRecoveryTime + reflectActiveTime)
+        if(timer <= weapon.reflectRecoveryTime + weapon.reflectActiveTime)
         {
-            if(timer >= reflectRecoveryTime)//盾反中
+            if(timer >= weapon.reflectRecoveryTime)//盾反中
             {
-                reflectArea.SetActive(true);
+                if(weaponArea == null)
+                {
+                    // 实例化攻击范围
+                    weaponArea = Instantiate((GameObject)Resources.Load(weapon.reflectAreaName));
+                    weaponArea.transform.SetParent(transform);
+                    weaponArea.transform.localPosition = new Vector3(0, 0, 0);
+                }
             }
             else //后摇
             {
-                reflectArea.SetActive(false);
+                if (weaponArea != null)
+                    Destroy(weaponArea);
             }
         }
         else //前摇
@@ -191,7 +216,8 @@ public class PlayerController : MonoBehaviour
     }
     void ExitReflectState()
     {
-        // reflectArea.SetActive(false); 看实际是否需要
+        if (weaponArea != null)
+            Destroy(weaponArea);
     }
 
 
